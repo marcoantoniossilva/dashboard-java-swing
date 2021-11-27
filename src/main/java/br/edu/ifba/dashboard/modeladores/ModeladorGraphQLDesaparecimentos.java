@@ -116,5 +116,26 @@ public class ModeladorGraphQLDesaparecimentos {
         }
         """.replace("COD_LOCAL", String.valueOf(codLocal));
     }
+    
+    public String montarQueryDeDesaparecimentosCriancaAdulto() {
+        return """
+        query{
+            desaparecimentosCriancaAdulto{
+            criancas
+            adultos
+          }
+        }
+        """;
+    }
+    
+    public String montarQueryDeDesaparecimentosTotais() {
+        return """
+        query{
+            desaparecimentosTotais{
+            total
+          }
+        }
+        """;
+    }
 
 }

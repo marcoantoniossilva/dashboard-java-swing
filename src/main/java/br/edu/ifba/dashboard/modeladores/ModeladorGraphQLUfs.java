@@ -34,5 +34,16 @@ public class ModeladorGraphQLUfs {
              }
            """;
   }
+  
+  public String montarQueryDeUfComMaisOcorrencias() {
+    return """
+           query {
+            ufComMaisOcorrencias{
+                nome
+                total
+            }
+           }
+           """;
+  }
 
 }

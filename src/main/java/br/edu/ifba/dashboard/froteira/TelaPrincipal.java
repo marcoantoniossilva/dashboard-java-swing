@@ -5,26 +5,7 @@
  */
 package br.edu.ifba.dashboard.froteira;
 
-import br.edu.ifba.dashboard.leitor.LeitorGraphQL;
-import br.edu.ifba.dashboard.leitor.impl.ILeitorDados;
-import br.edu.ifba.dashboard.modelos.Bairro;
-import br.edu.ifba.dashboard.modelos.Cidade;
-import br.edu.ifba.dashboard.modelos.Desaparecimento;
-import br.edu.ifba.dashboard.modelos.Local;
-import br.edu.ifba.dashboard.modelos.Pessoa;
-import br.edu.ifba.dashboard.modelos.Uf;
-import br.edu.ifba.dashboard.constantes.Constantes;
-import java.awt.Color;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.ImageIcon;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreePath;
+import utilitarios.AtualizarThread;
 
 /**
  *
@@ -37,8 +18,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
      */
     public TelaPrincipal() {
         initComponents();
-        initTree();
-        leitorGraphQL = new LeitorGraphQL();
+        atualizarThread = new AtualizarThread();
     }
 
     /**
@@ -56,17 +36,17 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
+        numBrasil = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jPanel8 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
+        numEstado = new javax.swing.JLabel();
+        nomeEstado = new javax.swing.JLabel();
         jPanel9 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel16 = new javax.swing.JLabel();
+        numCidade = new javax.swing.JLabel();
+        nomeCidade = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         jButton9 = new javax.swing.JButton();
         jButton10 = new javax.swing.JButton();
@@ -74,13 +54,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jPanel16 = new javax.swing.JPanel();
         jPanel17 = new javax.swing.JPanel();
         jLabel22 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
-        jLabel18 = new javax.swing.JLabel();
+        numCrianca = new javax.swing.JLabel();
+        numAdulto = new javax.swing.JLabel();
         jLabel19 = new javax.swing.JLabel();
         jLabel23 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -116,10 +97,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
         );
 
-        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel12.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel12.setText("15854");
+        numBrasil.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
+        numBrasil.setForeground(new java.awt.Color(255, 255, 255));
+        numBrasil.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        numBrasil.setText("0000");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -128,7 +109,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(numBrasil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
@@ -136,7 +117,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(numBrasil, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -162,15 +143,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
         );
 
-        jLabel13.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel13.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel13.setText("6985");
+        numEstado.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
+        numEstado.setForeground(new java.awt.Color(255, 255, 255));
+        numEstado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        numEstado.setText("0000");
 
-        jLabel15.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel15.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel15.setText("SP");
+        nomeEstado.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        nomeEstado.setForeground(new java.awt.Color(255, 255, 255));
+        nomeEstado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        nomeEstado.setText("SP");
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -180,8 +161,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel13, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(numEstado, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(nomeEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
@@ -189,9 +170,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel13)
+                .addComponent(numEstado)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel15)
+                .addComponent(nomeEstado)
                 .addGap(0, 8, Short.MAX_VALUE))
         );
 
@@ -215,15 +196,15 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
         );
 
-        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel14.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel14.setText("4875");
+        numCidade.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
+        numCidade.setForeground(new java.awt.Color(255, 255, 255));
+        numCidade.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        numCidade.setText("0000");
 
-        jLabel16.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel16.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel16.setText("São Paulo");
+        nomeCidade.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        nomeCidade.setForeground(new java.awt.Color(255, 255, 255));
+        nomeCidade.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        nomeCidade.setText("São Paulo");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -233,8 +214,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(numCidade, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(nomeCidade, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel9Layout.setVerticalGroup(
@@ -242,9 +223,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel14)
+                .addComponent(numCidade)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                .addComponent(jLabel16)
+                .addComponent(nomeCidade)
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
@@ -297,11 +278,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
+                .addGap(38, 38, 38)
                 .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(38, 38, 38)
                 .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
+                .addGap(38, 38, 38)
                 .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(39, 39, 39))
         );
@@ -319,22 +300,22 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jPanel17.setLayout(jPanel17Layout);
         jPanel17Layout.setHorizontalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE)
+            .addComponent(jLabel22, javax.swing.GroupLayout.DEFAULT_SIZE, 274, Short.MAX_VALUE)
         );
         jPanel17Layout.setVerticalGroup(
             jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel22, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 36, Short.MAX_VALUE)
         );
 
-        jLabel17.setFont(new java.awt.Font("Tahoma", 0, 32)); // NOI18N
-        jLabel17.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel17.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel17.setText("8745");
+        numCrianca.setFont(new java.awt.Font("Tahoma", 0, 32)); // NOI18N
+        numCrianca.setForeground(new java.awt.Color(255, 255, 255));
+        numCrianca.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        numCrianca.setText("0000");
 
-        jLabel18.setFont(new java.awt.Font("Tahoma", 0, 32)); // NOI18N
-        jLabel18.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel18.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel18.setText("7225");
+        numAdulto.setFont(new java.awt.Font("Tahoma", 0, 32)); // NOI18N
+        numAdulto.setForeground(new java.awt.Color(255, 255, 255));
+        numAdulto.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        numAdulto.setText("0000");
 
         jLabel19.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel19.setForeground(new java.awt.Color(255, 255, 255));
@@ -354,11 +335,11 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel16Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+                    .addComponent(numCrianca, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
                     .addComponent(jLabel19, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(numAdulto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel23, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -368,9 +349,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
-                    .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                    .addComponent(numCrianca, javax.swing.GroupLayout.DEFAULT_SIZE, 44, Short.MAX_VALUE)
+                    .addComponent(numAdulto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addGroup(jPanel16Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel19)
                     .addComponent(jLabel23))
@@ -392,10 +373,10 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel4Layout.createSequentialGroup()
-                    .addGap(583, 583, 583)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                    .addContainerGap(589, Short.MAX_VALUE)
                     .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(11, Short.MAX_VALUE)))
+                    .addContainerGap()))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -412,7 +393,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     .addComponent(jPanel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                    .addGap(0, 171, Short.MAX_VALUE)
+                    .addGap(0, 175, Short.MAX_VALUE)
                     .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
@@ -423,7 +404,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel20, javax.swing.GroupLayout.PREFERRED_SIZE, 847, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addContainerGap(30, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addGap(2, 2, 2)
@@ -446,26 +427,18 @@ public class TelaPrincipal extends javax.swing.JFrame {
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        try {
-            List<Uf> ufs = leitorGraphQL.lerUfs();
-
-            ufs.forEach(
-                    uf -> {
-                        model.insertNodeInto(new DefaultMutableTreeNode(uf.getSigla()), root, root.getChildCount());
-                        mapaUfs.put(uf.getSigla().toUpperCase(), uf.getCodUf());
-                    });
-
-        } catch (IOException ex) {
-            Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+        atualizarThread.start();
     }//GEN-LAST:event_formWindowOpened
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        // TODO add your handling code here:
+        if (telaConfiguracoes == null) {
+            telaConfiguracoes = new TelaConfiguracoes(this,true);
+        }
+        telaConfiguracoes.setVisible(true);
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
@@ -513,24 +486,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel20;
-    private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
-    private javax.swing.JPanel jPanel14;
-    private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
     private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel4;
@@ -539,113 +502,14 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
+    public static javax.swing.JLabel nomeCidade;
+    public static javax.swing.JLabel nomeEstado;
+    public static javax.swing.JLabel numAdulto;
+    public static javax.swing.JLabel numBrasil;
+    public static javax.swing.JLabel numCidade;
+    public static javax.swing.JLabel numCrianca;
+    public static javax.swing.JLabel numEstado;
     // End of variables declaration//GEN-END:variables
-    private DefaultTreeModel model;
-    private DefaultMutableTreeNode root;
-    private Map<String, Integer> mapaUfs;
-    private Map<String, Integer> mapaCidades;
-    private Map<String, Integer> mapaBairros;
-    private Map<String, Integer> mapaLocais;
-    private Map<Integer, Integer> mapaDesaparecimentos;
-    private Map<String, Integer> mapaPessoas;
-    private final ILeitorDados leitorGraphQL;
-
-    private void initTree() {
-        model = (DefaultTreeModel) jTree1.getModel();
-        root = (DefaultMutableTreeNode) model.getRoot();
-        mapaUfs = new HashMap<>();
-        mapaCidades = new HashMap<>();
-        mapaBairros = new HashMap<>();
-        mapaLocais = new HashMap<>();
-        mapaDesaparecimentos = new HashMap<>();
-        mapaPessoas = new HashMap<>();
-    }
-
-    private void listarCidades(DefaultMutableTreeNode node) {
-        try {
-            Integer codUf = mapaUfs.get(node.getUserObject().toString().toUpperCase());
-            List<Cidade> cidades = leitorGraphQL.lerCidadesPorUf(codUf);
-
-            cidades.forEach(
-                    cidade -> {
-                        if (mapaCidades.get(cidade.getNomeCidade().toUpperCase()) == null) {
-                            mapaCidades.put(cidade.getNomeCidade().toUpperCase(), cidade.getCodCidade());
-                            model.insertNodeInto(new DefaultMutableTreeNode(cidade.getNomeCidade()), node, node.getChildCount());
-                        }
-                    });
-
-        } catch (IOException ex) {
-            Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void listarBairros(DefaultMutableTreeNode node) {
-        try {
-            Integer codCidade = mapaCidades.get(node.getUserObject().toString().toUpperCase());
-            List<Bairro> bairros = leitorGraphQL.lerBairrosPorCidade(codCidade);
-
-            bairros.forEach(
-                    bairro -> {
-                        if (mapaBairros.get(bairro.getNomeBairro().toUpperCase()) == null) {
-                            mapaBairros.put(bairro.getNomeBairro().toUpperCase(), bairro.getCodBairro());
-                            model.insertNodeInto(new DefaultMutableTreeNode(bairro.getNomeBairro()), node, node.getChildCount());
-                        }
-                    });
-
-        } catch (IOException ex) {
-            Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void listarLocais(DefaultMutableTreeNode node) {
-        try {
-            Integer codBairro = mapaBairros.get(node.getUserObject().toString().toUpperCase());
-            List<Local> locais = leitorGraphQL.lerLocaisPorBairro(codBairro);
-
-            locais.forEach(
-                    local -> {
-                        if (mapaLocais.get(local.getLatitude().toUpperCase() + ";" + local.getLongitude().toUpperCase()) == null) {
-                            mapaLocais.put(local.getLatitude().toUpperCase() + ";" + local.getLongitude().toUpperCase(), local.getCodLocal());
-                            model.insertNodeInto(new DefaultMutableTreeNode(local.getLatitude() + ";" + local.getLongitude()), node, node.getChildCount());
-                        }
-                    });
-
-        } catch (IOException ex) {
-            Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void listarDesaparecimentos(DefaultMutableTreeNode node) {
-        try {
-            Integer codLocal = mapaLocais.get(node.getUserObject().toString().toUpperCase());
-            List<Desaparecimento> desaparecimentos = leitorGraphQL.lerDesaparecimentosPorLocal(codLocal);
-
-            desaparecimentos.forEach(
-                    desaparecimento -> {
-                        if (mapaDesaparecimentos.get(desaparecimento.getCodDesaparecimento()) == null) {
-                            mapaDesaparecimentos.put(desaparecimento.getCodDesaparecimento(), desaparecimento.getCodPessoa());
-                            model.insertNodeInto(new DefaultMutableTreeNode(desaparecimento.getCodDesaparecimento()), node, node.getChildCount());
-                        }
-                    });
-
-        } catch (IOException ex) {
-            Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void listarPessoas(DefaultMutableTreeNode node) {
-        try {
-            Integer codDesaparecimento = Integer.parseInt(node.getUserObject().toString().toUpperCase());
-            Pessoa pessoa = leitorGraphQL.lerPessoaPorDesaparecimento(codDesaparecimento);
-
-            if (mapaPessoas.get(pessoa.getNome()) == null) {
-                mapaPessoas.put(pessoa.getNome(), pessoa.getCodPessoa());
-                model.insertNodeInto(new DefaultMutableTreeNode(pessoa.getNome()), node, node.getChildCount());
-            }
-
-        } catch (IOException ex) {
-            Logger.getLogger(TelaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
+    TelaConfiguracoes telaConfiguracoes;
+    AtualizarThread atualizarThread;
 }

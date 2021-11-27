@@ -24,5 +24,6 @@ public class Constantes {
     public static final String URL_SERVIDOR_GRAPHQL_LOCAIS = "http://localhost:4004";
     public static final String URL_SERVIDOR_GRAPHQL_PESSOAS = "http://localhost:4005";
     public static final String URL_SERVIDOR_GRAPHQL_DESAPARECIMENTOS = "http://localhost:4006";
+    public static final Integer SLEEP = 5000;
 
 }

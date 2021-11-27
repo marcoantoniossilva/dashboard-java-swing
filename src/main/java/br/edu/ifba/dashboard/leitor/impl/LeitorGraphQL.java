@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.edu.ifba.dashboard.leitor;
+package br.edu.ifba.dashboard.leitor.impl;
 
 import br.edu.ifba.dashboard.modeladores.ModeladorGraphQLDesaparecimentos;
 import br.edu.ifba.dashboard.modeladores.ModeladorGraphQLCidades;
@@ -26,8 +26,16 @@ import br.edu.ifba.dashboard.dto.CidadesDTO;
 import br.edu.ifba.dashboard.dto.GraphQLDTO;
 import br.edu.ifba.dashboard.dto.BairrosDTO;
 import br.edu.ifba.dashboard.http.client.ClienteGraphQL;
-import br.edu.ifba.dashboard.leitor.impl.ILeitorDados;
 import br.edu.ifba.dashboard.constantes.Constantes;
+import br.edu.ifba.dashboard.dto.CidadeComMaisOcorrenciasDTO;
+import br.edu.ifba.dashboard.dto.DesaparecimentosCriancaAdultoDTO;
+import br.edu.ifba.dashboard.dto.DesaparecimentosTotaisDTO;
+import br.edu.ifba.dashboard.dto.UfComMaisOcorrenciasDTO;
+import br.edu.ifba.dashboard.leitor.ILeitorDados;
+import br.edu.ifba.dashboard.modelos.CidadeComMaisOcorrencias;
+import br.edu.ifba.dashboard.modelos.DesaparecimentosCriancaAdulto;
+import br.edu.ifba.dashboard.modelos.DesaparecimentosTotais;
+import br.edu.ifba.dashboard.modelos.UfComMaisOcorrencias;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
@@ -147,6 +155,62 @@ public class LeitorGraphQL implements ILeitorDados {
         GraphQLDTO graphQLDTO = objectMapper.readValue(respostaApi, GraphQLDTO.class);
         PessoasDTO pessoasDTO = graphQLDTO.getData(PessoasDTO.class);
         return pessoasDTO.getPessoa();
+    }
+
+    @Override
+    public UfComMaisOcorrencias lerUfComMaisOcorrencias() throws IOException {
+        String query = this.modeladorGraphQLUfs.montarQueryDeUfComMaisOcorrencias();
+        String respostaApi = this.clienteGraphQLUf.executar(
+                CorpoRequisicaoGraphQL.builder()
+                        .query(query)
+                        .build()
+        );
+
+        GraphQLDTO graphQLDTO = objectMapper.readValue(respostaApi, GraphQLDTO.class);
+        UfComMaisOcorrenciasDTO ufComMaisOcorrenciasDTO = graphQLDTO.getData(UfComMaisOcorrenciasDTO.class);
+        return ufComMaisOcorrenciasDTO.getUfComMaisOcorrencias();
+    }
+
+    @Override
+    public CidadeComMaisOcorrencias lerCidadeComMaisOcorrencias() throws IOException {
+        String query = this.modeladorGraphQLCidades.montarQueryDeCidadeComMaisOcorrencias();
+        String respostaApi = this.clienteGraphQLCidade.executar(
+                CorpoRequisicaoGraphQL.builder()
+                        .query(query)
+                        .build()
+        );
+
+        GraphQLDTO graphQLDTO = objectMapper.readValue(respostaApi, GraphQLDTO.class);
+        CidadeComMaisOcorrenciasDTO cidadeComMaisOcorrenciasDTO = graphQLDTO.getData(CidadeComMaisOcorrenciasDTO.class);
+        return cidadeComMaisOcorrenciasDTO.getCidadeComMaisOcorrencias();
+    }
+
+    @Override
+    public DesaparecimentosCriancaAdulto lerDesaparecimentosCriancaAdulto() throws IOException {
+        String query = this.modeladorGraphQLDesaparecimentos.montarQueryDeDesaparecimentosCriancaAdulto();
+        String respostaApi = this.clienteGraphQLDesaparecimento.executar(
+                CorpoRequisicaoGraphQL.builder()
+                        .query(query)
+                        .build()
+        );
+
+        GraphQLDTO graphQLDTO = objectMapper.readValue(respostaApi, GraphQLDTO.class);
+        DesaparecimentosCriancaAdultoDTO desaparecimentosCriancaAdulto = graphQLDTO.getData(DesaparecimentosCriancaAdultoDTO.class);
+        return desaparecimentosCriancaAdulto.getDesaparecimentosCriancaAdulto();
+    }
+
+    @Override
+    public DesaparecimentosTotais lerDesaparecimentosTotais() throws IOException {
+        String query = this.modeladorGraphQLDesaparecimentos.montarQueryDeDesaparecimentosTotais();
+        String respostaApi = this.clienteGraphQLDesaparecimento.executar(
+                CorpoRequisicaoGraphQL.builder()
+                        .query(query)
+                        .build()
+        );
+
+        GraphQLDTO graphQLDTO = objectMapper.readValue(respostaApi, GraphQLDTO.class);
+        DesaparecimentosTotaisDTO desaparecimentosTotais = graphQLDTO.getData(DesaparecimentosTotaisDTO.class);
+        return desaparecimentosTotais.getDesaparecimentosTotais();
     }
 
 }

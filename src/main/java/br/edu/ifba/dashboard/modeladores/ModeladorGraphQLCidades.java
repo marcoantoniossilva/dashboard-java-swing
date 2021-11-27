@@ -40,8 +40,6 @@ public class ModeladorGraphQLCidades {
 
         return MODELO_MUTATION_CRIAR_CIDADES.replace("CIDADES", cidadesFormatadas);
     }
-    
-    
 
     public String montarQueryDeCidades() {
         return """
@@ -54,7 +52,7 @@ public class ModeladorGraphQLCidades {
         }
         """;
     }
-    
+
     public String montarQueryDeCidadesPorUf(int codUf) {
         return """
         query {
@@ -65,6 +63,17 @@ public class ModeladorGraphQLCidades {
           }
         }
         """.replace("COD_UF", String.valueOf(codUf));
+    }
+
+    public String montarQueryDeCidadeComMaisOcorrencias() {
+        return """
+        query {
+            cidadeComMaisOcorrencias{
+            nome
+            total
+          }
+        }
+        """;
     }
 
 }
