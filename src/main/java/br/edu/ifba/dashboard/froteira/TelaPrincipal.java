@@ -5,7 +5,16 @@
  */
 package br.edu.ifba.dashboard.froteira;
 
-import utilitarios.AtualizarThread;
+import br.edu.ifba.dashboard.constantes.Constantes;
+import br.edu.ifba.dashboard.leitor.impl.LeitorGraphQL;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import utilitarios.ThreadAtualizarDados;
 
 /**
  *
@@ -18,7 +27,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
      */
     public TelaPrincipal() {
         initComponents();
-        atualizarThread = new AtualizarThread();
+        lerConfiguracoes();
+        telaConfiguracoes = new TelaConfiguracoes(this, true);
     }
 
     /**
@@ -60,6 +70,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jLabel23 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Dashboard de pessoas desaparecidas");
         setBackground(new java.awt.Color(255, 255, 255));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -151,7 +162,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         nomeEstado.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         nomeEstado.setForeground(new java.awt.Color(255, 255, 255));
         nomeEstado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        nomeEstado.setText("SP");
+        nomeEstado.setText("Nenhum");
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -204,7 +215,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         nomeCidade.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         nomeCidade.setForeground(new java.awt.Color(255, 255, 255));
         nomeCidade.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        nomeCidade.setText("São Paulo");
+        nomeCidade.setText("Nenhuma");
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -371,7 +382,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
                     .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                     .addContainerGap(589, Short.MAX_VALUE)
@@ -431,18 +442,19 @@ public class TelaPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        atualizarThread.start();
+
     }//GEN-LAST:event_formWindowOpened
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        if (telaConfiguracoes == null) {
-            telaConfiguracoes = new TelaConfiguracoes(this,true);
-        }
+        telaConfiguracoes.setarValores();
         telaConfiguracoes.setVisible(true);
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // TODO add your handling code here:
+        if(telaSobre==null){
+            telaSobre = new TelaSobre(this,rootPaneCheckingEnabled);
+        }
+        telaSobre.setVisible(true);
     }//GEN-LAST:event_jButton9ActionPerformed
 
     /**
@@ -510,6 +522,72 @@ public class TelaPrincipal extends javax.swing.JFrame {
     public static javax.swing.JLabel numCrianca;
     public static javax.swing.JLabel numEstado;
     // End of variables declaration//GEN-END:variables
-    TelaConfiguracoes telaConfiguracoes;
-    AtualizarThread atualizarThread;
+    public static TelaConfiguracoes telaConfiguracoes;
+    public static TelaSobre telaSobre;
+    ThreadAtualizarDados threadAtualizarDados;
+
+    private void lerConfiguracoes() {
+        File arq = new File(System.getProperty("user.dir"), "configs.arq");
+        arq.setReadable(true);
+        String linha[] = new String[13];
+        if (arq.exists()) {
+            try ( FileReader fileReader = new FileReader(arq)) {
+                BufferedReader bufferedReader = new BufferedReader(fileReader);
+                for (int e = 0; e < 13; e++) {
+                    linha[e] = bufferedReader.readLine();
+                }
+                Constantes.URL_SERVIDOR_GRAPHQL_UFS = linha[0];
+                Constantes.URL_SERVIDOR_GRAPHQL_CIDADES = linha[1];
+                Constantes.URL_SERVIDOR_GRAPHQL_PESSOAS = linha[2];
+                Constantes.URL_SERVIDOR_GRAPHQL_DESAPARECIMENTOS = linha[3];
+                Constantes.SLEEP = Integer.parseInt(linha[4]) * 1000;
+                threadAtualizarDados = new ThreadAtualizarDados(this);
+                threadAtualizarDados.start();
+            } catch (FileNotFoundException ex) {
+                System.err.println("Arquivo de configurações não encontrado!");
+                System.exit(1);
+            } catch (IOException ex) {
+                System.err.println("Erro de I/O ao manipular arquivo de configurações.");
+                System.exit(1);
+            }
+        } else { //SE O ARQUIVO NÃO EXISTE
+            salvarConfigs(Constantes.URL_SERVIDOR_GRAPHQL_UFS,
+                    Constantes.URL_SERVIDOR_GRAPHQL_CIDADES,
+                    Constantes.URL_SERVIDOR_GRAPHQL_PESSOAS,
+                    Constantes.URL_SERVIDOR_GRAPHQL_DESAPARECIMENTOS,
+                    String.valueOf(Constantes.SLEEP));
+        }
+    }
+
+    public void salvarConfigs(String URL_SERVIDOR_GRAPHQL_UFS,
+            String URL_SERVIDOR_GRAPHQL_CIDADES,
+            String URL_SERVIDOR_GRAPHQL_PESSOAS,
+            String URL_SERVIDOR_GRAPHQL_DESAPARECIMENTOS,
+            String SLEEP) {
+        File dir = new File(System.getProperty("user.dir") + System.getProperty("file.separator"));
+        File arq = new File(dir, "configs.arq");
+
+        try {
+            arq.createNewFile();
+            arq.setWritable(true);
+            arq.setReadable(true);
+            FileWriter fileWriter = new FileWriter(arq, false);
+            PrintWriter printWriter = new PrintWriter(fileWriter);
+            printWriter.println(URL_SERVIDOR_GRAPHQL_UFS);
+            printWriter.println(URL_SERVIDOR_GRAPHQL_CIDADES);
+            printWriter.println(URL_SERVIDOR_GRAPHQL_PESSOAS);
+            printWriter.println(URL_SERVIDOR_GRAPHQL_DESAPARECIMENTOS);
+            printWriter.println(SLEEP);
+            //o método flush libera a escrita no arquivo
+            printWriter.flush();
+            //No final precisamos fechar o arquivo
+            printWriter.close();
+            arq.isHidden();
+            arq.setReadOnly();
+            System.exit(0);
+        } catch (IOException e) {
+            System.err.println("Erro de I/O ao manipular arquivo de configurações.");
+            System.exit(1);
+        }
+    }
 }

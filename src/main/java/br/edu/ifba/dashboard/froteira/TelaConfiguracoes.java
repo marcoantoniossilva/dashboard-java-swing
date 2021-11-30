@@ -5,6 +5,9 @@
  */
 package br.edu.ifba.dashboard.froteira;
 
+import br.edu.ifba.dashboard.constantes.Constantes;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author marco
@@ -17,6 +20,7 @@ public class TelaConfiguracoes extends javax.swing.JDialog {
     public TelaConfiguracoes(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.telaPrincipal = (TelaPrincipal) parent;
     }
 
     /**
@@ -30,25 +34,26 @@ public class TelaConfiguracoes extends javax.swing.JDialog {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        campoUf = new javax.swing.JTextField();
+        limparUf = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        campoCidade = new javax.swing.JTextField();
+        limparCidade = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
-        jButton3 = new javax.swing.JButton();
+        campoPessoa = new javax.swing.JTextField();
+        limparPessoa = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
+        campoDesaparecimento = new javax.swing.JTextField();
+        limparDesaparecimento = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
-        jSpinner1 = new javax.swing.JSpinner();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
+        padraoSegundos = new javax.swing.JButton();
+        campoSegundos = new javax.swing.JSpinner();
+        botaoEditar = new javax.swing.JButton();
+        botaoSalvar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Configurações");
         setBackground(new java.awt.Color(255, 255, 255));
         setResizable(false);
 
@@ -57,30 +62,81 @@ public class TelaConfiguracoes extends javax.swing.JDialog {
 
         jLabel2.setText("EndPoint de Ufs:");
 
-        jButton1.setText("Limpar");
+        campoUf.setEnabled(false);
+
+        limparUf.setText("Limpar");
+        limparUf.setEnabled(false);
+        limparUf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                limparUfActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("EndPoint de Cidades:");
 
-        jButton2.setText("Limpar");
+        campoCidade.setEnabled(false);
+
+        limparCidade.setText("Limpar");
+        limparCidade.setEnabled(false);
+        limparCidade.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                limparCidadeActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("EndPoint de Pessoas:");
 
-        jButton3.setText("Limpar");
+        campoPessoa.setEnabled(false);
+
+        limparPessoa.setText("Limpar");
+        limparPessoa.setEnabled(false);
+        limparPessoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                limparPessoaActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("EndPoint de Desaparecimentos:");
 
-        jButton4.setText("Limpar");
+        campoDesaparecimento.setEnabled(false);
+
+        limparDesaparecimento.setText("Limpar");
+        limparDesaparecimento.setEnabled(false);
+        limparDesaparecimento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                limparDesaparecimentoActionPerformed(evt);
+            }
+        });
 
         jLabel6.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel6.setText("Configurações gerais");
 
-        jLabel7.setText("Tempo de aualização em segundos:");
+        jLabel7.setText("Tempo de atualização (>=1) em segundos:");
 
-        jButton5.setText("Limpar");
+        padraoSegundos.setText("Padrão");
+        padraoSegundos.setEnabled(false);
+        padraoSegundos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                padraoSegundosActionPerformed(evt);
+            }
+        });
 
-        jButton6.setText("Editar");
+        campoSegundos.setEnabled(false);
 
-        jButton7.setText("Salvar");
+        botaoEditar.setText("Editar");
+        botaoEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoEditarActionPerformed(evt);
+            }
+        });
+
+        botaoSalvar.setText("Salvar e fechar");
+        botaoSalvar.setEnabled(false);
+        botaoSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoSalvarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -88,42 +144,39 @@ public class TelaConfiguracoes extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton6)
+                        .addComponent(botaoEditar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton7))
+                        .addComponent(botaoSalvar))
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton1))
-                            .addComponent(jLabel3)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton2))
-                            .addComponent(jLabel4)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton3))
-                            .addComponent(jLabel5)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton4))
-                            .addComponent(jLabel6)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(33, 33, 33)
-                                .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jButton5))
-                            .addComponent(jLabel7))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(campoUf, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(limparUf))
+                    .addComponent(jLabel3)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(campoCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(limparCidade))
+                    .addComponent(jLabel4)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(campoPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(limparPessoa))
+                    .addComponent(jLabel5)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(campoDesaparecimento, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(limparDesaparecimento))
+                    .addComponent(jLabel6)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(campoSegundos, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(padraoSegundos))
+                    .addComponent(jLabel7))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -135,44 +188,84 @@ public class TelaConfiguracoes extends javax.swing.JDialog {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(campoUf, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(limparUf))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2))
+                    .addComponent(campoCidade, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(limparCidade))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3))
+                    .addComponent(campoPessoa, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(limparPessoa))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4))
+                    .addComponent(campoDesaparecimento, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(limparDesaparecimento))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(campoSegundos, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(padraoSegundos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton6)
-                    .addComponent(jButton7))
+                    .addComponent(botaoEditar)
+                    .addComponent(botaoSalvar))
                 .addContainerGap())
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void limparUfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparUfActionPerformed
+        campoUf.setText("");
+    }//GEN-LAST:event_limparUfActionPerformed
+
+    private void limparCidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparCidadeActionPerformed
+        campoCidade.setText("");
+    }//GEN-LAST:event_limparCidadeActionPerformed
+
+    private void limparPessoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparPessoaActionPerformed
+        campoPessoa.setText("");
+    }//GEN-LAST:event_limparPessoaActionPerformed
+
+    private void limparDesaparecimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_limparDesaparecimentoActionPerformed
+        campoDesaparecimento.setText("");
+    }//GEN-LAST:event_limparDesaparecimentoActionPerformed
+
+    private void padraoSegundosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_padraoSegundosActionPerformed
+        campoSegundos.setValue(5);
+    }//GEN-LAST:event_padraoSegundosActionPerformed
+
+    private void botaoEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoEditarActionPerformed
+        if(botaoEditar.getText().equals("Cancelar")){
+            setarValores();
+            this.dispose();
+        }
+        configurarCampos(botaoEditar.getText().equals("Editar"));
+    }//GEN-LAST:event_botaoEditarActionPerformed
+
+    private void botaoSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSalvarActionPerformed
+        if (verificarCampos()) {
+            telaPrincipal.salvarConfigs(campoUf.getText(),
+                    campoCidade.getText(),
+                    campoPessoa.getText(),
+                    campoDesaparecimento.getText(),
+                    String.valueOf(campoSegundos.getValue()));
+        } else {
+            JOptionPane.showMessageDialog(null, "Preencha todos os campos corretamente!", "Erro!", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_botaoSalvarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -218,13 +311,13 @@ public class TelaConfiguracoes extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
+    private javax.swing.JButton botaoEditar;
+    private javax.swing.JButton botaoSalvar;
+    private javax.swing.JTextField campoCidade;
+    private javax.swing.JTextField campoDesaparecimento;
+    private javax.swing.JTextField campoPessoa;
+    private javax.swing.JSpinner campoSegundos;
+    private javax.swing.JTextField campoUf;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -232,10 +325,51 @@ public class TelaConfiguracoes extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JButton limparCidade;
+    private javax.swing.JButton limparDesaparecimento;
+    private javax.swing.JButton limparPessoa;
+    private javax.swing.JButton limparUf;
+    private javax.swing.JButton padraoSegundos;
     // End of variables declaration//GEN-END:variables
+    TelaPrincipal telaPrincipal;
+
+    private void configurarCampos(boolean b) {
+        campoUf.setEnabled(b);
+        campoCidade.setEnabled(b);
+        campoPessoa.setEnabled(b);
+        campoDesaparecimento.setEnabled(b);
+        campoSegundos.setEnabled(b);
+        limparUf.setEnabled(b);
+        limparCidade.setEnabled(b);
+        limparPessoa.setEnabled(b);
+        limparDesaparecimento.setEnabled(b);
+        padraoSegundos.setEnabled(b);
+        botaoSalvar.setEnabled(b);
+
+        botaoEditar.setText(b ? "Cancelar" : "Editar");
+    }
+
+    private boolean verificarCampos() {
+        if (campoUf.getText().isBlank() || campoUf.getText().isEmpty()) {
+            return false;
+        }
+        if (campoCidade.getText().isBlank() || campoCidade.getText().isEmpty()) {
+            return false;
+        }
+        if (campoPessoa.getText().isBlank() || campoPessoa.getText().isEmpty()) {
+            return false;
+        }
+        if (campoDesaparecimento.getText().isBlank() || campoDesaparecimento.getText().isEmpty()) {
+            return false;
+        }
+        return ((Integer) campoSegundos.getValue()) > 0;
+    }
+
+    public void setarValores() {
+        campoUf.setText(Constantes.URL_SERVIDOR_GRAPHQL_UFS);
+        campoCidade.setText(Constantes.URL_SERVIDOR_GRAPHQL_CIDADES);
+        campoPessoa.setText(Constantes.URL_SERVIDOR_GRAPHQL_PESSOAS);
+        campoDesaparecimento.setText(Constantes.URL_SERVIDOR_GRAPHQL_DESAPARECIMENTOS);
+        campoSegundos.setValue(Constantes.SLEEP/1000);
+    }
 }
